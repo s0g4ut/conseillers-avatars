@@ -48,7 +48,7 @@ def main():
     p.add_argument("--expression", default="neutre")
     p.add_argument("--emoji", default="")
     p.add_argument("--badges", default="")
-    p.add_argument("--commit", default="2b85b9a")
+    p.add_argument("--commit", default="main")
     p.add_argument("--out", default="carte.png")
     a = p.parse_args()
 
@@ -81,7 +81,7 @@ def main():
                 pass
 
     x = 20
-    for nom in [b for b in a.badges.split(",") if b][:3]:
+    for nom in [b.strip().removeprefix("badges/") for b in a.badges.split(",") if b.strip()][:3]:
         try:
             b = telecharger(BASE.format(commit=a.commit, chemin=f"badges/{nom}")).convert("RGBA").resize((76, 76), Image.LANCZOS)
             carte.alpha_composite(b, (x, 20))
